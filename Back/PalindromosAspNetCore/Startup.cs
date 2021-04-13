@@ -32,6 +32,12 @@ namespace PalindromosAspNetCore
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PalindromosAspNetCore", Version = "v1" });
             });
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +49,7 @@ namespace PalindromosAspNetCore
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PalindromosAspNetCore v1"));
             }
+            app.UseCors("MyPolicy");
 
             app.UseHttpsRedirection();
 
